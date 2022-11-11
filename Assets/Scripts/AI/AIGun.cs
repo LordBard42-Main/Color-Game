@@ -5,7 +5,7 @@ using UnityEngine;
 public class AIGun : MonoBehaviour
 {
     [SerializeField] private GameObject owner;
-    [ReadOnly][SerializeField] private PrimaryColors color;
+    [ReadOnly][SerializeField] private Colors color;
 
     [Header("Bullet Components")]
     [SerializeField] private Transform firePoint;

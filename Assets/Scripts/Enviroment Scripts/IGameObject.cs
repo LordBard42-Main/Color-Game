@@ -2,9 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IGameObject 
+public class IGameObject :MonoBehaviour
 {
-    public bool CanMoveInto();
+    [SerializeField]
+    private bool canMoveInto;
+
+    [SerializeField]
+    private bool canBePushed;
+
+    public bool CanMoveInto()
+    {
+        return canMoveInto;
+    }
+    public bool CanBePushed()
+    {
+        return canBePushed;
+
+    }
+    public virtual void ForceApplied(Vector2 direction)
+    {
+    }
 
 
 }

@@ -2,13 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Wall : MonoBehaviour, IGameObject
+public class Wall : IGameObject
 {
-    [SerializeField]
-    private bool canMoveInto;
-    public bool CanMoveInto()
-    {
-        return canMoveInto;
-    }
-
 }

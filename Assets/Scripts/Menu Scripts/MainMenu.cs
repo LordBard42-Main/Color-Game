@@ -16,13 +16,10 @@ public class MainMenu : MonoBehaviour
     private GameObject titleCard;
 
     [SerializeField]
-    private GameObject settings;
+    private GameObject levelSelect;
 
     [SerializeField]
-    private Button settingsDefaultButton;
-    
-    [SerializeField]
-    private Button mainMenuDefaultButton;
+    private GameObject settings;
 
 
     private void Start()
@@ -33,7 +30,7 @@ public class MainMenu : MonoBehaviour
 
     public void LoadGame()
     {
-        SceneController.instance.LoadScene(Scenes.Level_1_PU);
+        SceneController.instance.LoadScene(Scenes.Level_1);
     }
 
     public void GoToSetttings()
@@ -41,7 +38,12 @@ public class MainMenu : MonoBehaviour
         activePanelCard.SetActive(false);
         activePanelCard = settings;
         settings.SetActive(true);
-        EventSystem.current.SetSelectedGameObject(settingsDefaultButton.gameObject);
+    }
+    public void GoToLevelSelect()
+    {
+        activePanelCard.SetActive(false);
+        activePanelCard = levelSelect;
+        levelSelect.SetActive(true);
     }
 
     public void GoToMainMenu()
@@ -49,7 +51,6 @@ public class MainMenu : MonoBehaviour
         activePanelCard.SetActive(false);
         activePanelCard = titleCard;
         titleCard.SetActive(true);
-        EventSystem.current.SetSelectedGameObject(mainMenuDefaultButton.gameObject);
     }
 
     public void QuitGame()

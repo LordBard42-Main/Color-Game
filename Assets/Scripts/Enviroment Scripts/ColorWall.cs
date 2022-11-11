@@ -2,21 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ColorWall : MonoBehaviour, IGameObject
+public class ColorWall : IGameObject
 {
-    ColorProperties colorProperties;
 
-    [SerializeField]
-    private bool canMoveInto;
+    private ColorProperties colorProperties;
 
     private void Awake()
     {
         colorProperties = GetComponent<ColorProperties>();
     }
 
-    public bool CanMoveInto()
+    public void Reset()
     {
-        return canMoveInto;
+        colorProperties.ResetToStartingColor();
     }
-  
 }

@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class ColorSlot : MonoBehaviour
 {
     [SerializeField]
-    private PrimaryColors slotColor;
+    private Colors slotColor;
 
     private ColorSelector colorSelector;
 
@@ -21,20 +21,20 @@ public class ColorSlot : MonoBehaviour
     public delegate void SlotPressed();
     public event SlotPressed OnSlotPressed;
 
-    private readonly Dictionary<PrimaryColors, int> hValueMap = new Dictionary<PrimaryColors, int>
+    private readonly Dictionary<Colors, int> hValueMap = new Dictionary<Colors, int>
     {
-        {PrimaryColors.White, 300},
-        {PrimaryColors.Red, 1 },
-        {PrimaryColors.Blue, 240},
-        {PrimaryColors.Yellow, 60 },
-        {PrimaryColors.Purple, 275},
-        {PrimaryColors.Orange, 30},
-        {PrimaryColors.Green, 110 },
-        {PrimaryColors.Black, 300 },
+        {Colors.White, 300},
+        {Colors.Red, 1 },
+        {Colors.Blue, 240},
+        {Colors.Yellow, 60 },
+        {Colors.Purple, 275},
+        {Colors.Orange, 30},
+        {Colors.Green, 110 },
+        {Colors.Black, 300 },
     };
 
 
-    public void CreateSlot(PrimaryColors color, ColorSelector colorSelector)
+    public void CreateSlot(Colors color, ColorSelector colorSelector)
     {
         slotColor = color;
         this.colorSelector = colorSelector;
@@ -55,7 +55,6 @@ public class ColorSlot : MonoBehaviour
         buttonColorBlock.pressedColor = Color.HSVToRGB(hValue / 360f, sValue, vValuePressed/100f);
 
         slotButton.colors = buttonColorBlock;
-        Debug.Log("Slot Set");
     }
 
     public void ButtonPressed()

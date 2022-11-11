@@ -49,13 +49,12 @@ public class ColorSelectorUI : MonoBehaviour
 
     public void DisplayUI(Vector2 position, bool isOpen, ColorProperties colorProperties)
     {
-        Debug.Log(isOpen);
         if (isOpen)
         {
             transform.position = position;
             var colorList = colorProperties.ColorList;
 
-            foreach(PrimaryColors color in colorList)
+            foreach(Colors color in colorList)
             {
                 AddColorSlot(color);
             }
@@ -72,7 +71,7 @@ public class ColorSelectorUI : MonoBehaviour
         colorSelectorCanvas.gameObject.SetActive(isOpen);
     }
 
-    public void AddColorSlot(PrimaryColors color)
+    public void AddColorSlot(Colors color)
     {
         var newSlot = Instantiate(colorSlotPrefab, colorSlotParent);
 

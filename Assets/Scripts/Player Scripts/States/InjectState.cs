@@ -6,12 +6,14 @@ using UnityEngine.InputSystem;
 public class InjectState : IState
 {
 
+    private PlayerInputManager playerInputManager;
     private ColorSelector colorSelector;
     private ColorProperties playerColorProperties;
     private ColorInjector colorInjector;
     private Camera camera;
-    public InjectState(ColorSelector colorSelector, ColorProperties playerColorProperties, ColorInjector colorInjector, Camera camera)
+    public InjectState(PlayerInputManager playerInputManager, ColorSelector colorSelector, ColorProperties playerColorProperties, ColorInjector colorInjector, Camera camera)
     {
+        this.playerInputManager = playerInputManager;
         this.colorSelector = colorSelector;
         this.playerColorProperties = playerColorProperties;
         this.colorInjector = colorInjector;
@@ -24,6 +26,7 @@ public class InjectState : IState
 
         Debug.Log("Enter Inject State");
         colorSelector.OnColorSelected += ColorSelected;
+        playerInputManager.OnFire1Pressed += Fire1;
 
 
         var mousePosition = Mouse.current.position.ReadValue();
@@ -40,6 +43,7 @@ public class InjectState : IState
 
     public void OnExit()
     {
+        playerInputManager.OnFire1Pressed -= Fire1;
         colorSelector.OnColorSelected -= ColorSelected;
     }
 
@@ -48,7 +52,7 @@ public class InjectState : IState
     }
 
 
-    private void ColorSelected(PrimaryColors color)
+    private void ColorSelected(Colors color)
     {
         var wasInjected = colorInjector.InjectTarget(color);
         
@@ -56,5 +60,11 @@ public class InjectState : IState
             playerColorProperties.RemoveColor(color);
         else
             colorInjector.InjectionTarget = null;
+    }
+
+    private void Fire1()
+    {
+        colorInjector.InjectionTarget = null;
+        colorSelector.CloseColorSelection();
     }
 }

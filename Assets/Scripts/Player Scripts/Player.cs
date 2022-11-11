@@ -3,13 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour, IGameObject
+public class Player : IGameObject
 {
-    [SerializeField]
-    private PlayerInputHandler playerInputHandler;
+    private PlayerInputManager playerInputHandler;
 
     [SerializeField]
-    private PlayerMovement playerMovement;
+    private PlayerMovementController playerMovement;
 
     [SerializeField]
     private ColorProperties colorProperties;
@@ -28,12 +27,6 @@ public class Player : MonoBehaviour, IGameObject
 
     private StateMachine playerStateMachine;
 
-    public bool CanMoveInto()
-    {
-        throw new NotImplementedException();
-    }
-
-  
 
     private void Awake()
     {
@@ -42,10 +35,12 @@ public class Player : MonoBehaviour, IGameObject
 
     private void Start()
     {
+        playerInputHandler = PlayerInputManager.instance;
+
         var idleState = new IdleState(playerInputHandler, playerMovement, colorInjector, pointerController, colorProperties);
-        var moveState = new MoveState(playerMovement);
-        var injectState = new InjectState(colorSelector, colorProperties, colorInjector, camera);
-        var absorbState = new AbsorbState(colorSelector, colorProperties, colorInjector, camera);
+        var moveState = new MoveState(playerMovement, playerInputHandler);
+        var injectState = new InjectState(playerInputHandler, colorSelector, colorProperties, colorInjector, camera);
+        var absorbState = new AbsorbState(playerInputHandler, colorSelector, colorProperties, colorInjector, camera);
         
         At(to: idleState, from: moveState, condition: move());
         At(to: moveState, from: idleState, condition: idle());

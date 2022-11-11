@@ -14,9 +14,6 @@ public class PauseAnimation : MonoBehaviour
     private GameObject pauseMenu;
 
     [SerializeField]
-    private EventSystem eventSystem;
-
-    [SerializeField]
     private Button defaultButton;
 
     private Animator animator;
@@ -54,7 +51,7 @@ public class PauseAnimation : MonoBehaviour
         IEnumerator wait()
         {
             yield return new WaitForEndOfFrame();
-            eventSystem.SetSelectedGameObject(defaultButton.gameObject);
+            EventSystem.current.SetSelectedGameObject(defaultButton.gameObject);
 
         }
 

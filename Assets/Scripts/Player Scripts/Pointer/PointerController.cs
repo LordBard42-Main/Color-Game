@@ -18,6 +18,10 @@ public class PointerController : MonoBehaviour, IDirectional
         { -90f, Vector2.right },
         { 180f, Vector2.down },
     };
+    private void Awake()
+    {
+        SetPointerRotation();
+    }
 
     public void RotateLeft()
     {

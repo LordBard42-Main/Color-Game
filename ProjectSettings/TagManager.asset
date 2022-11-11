@@ -8,9 +8,10 @@ TagManager:
   - Obstacle
   - Wall
   - Ground
-  - Color_Queue
   - Scene_Handler
-  - Shooter_AI
+  - Companion
+  - Color Wall
+  - Color_Queue
   layers:
   - Default
   - TransparentFX

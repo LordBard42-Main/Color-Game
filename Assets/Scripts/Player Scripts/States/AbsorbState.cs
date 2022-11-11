@@ -5,13 +5,15 @@ using UnityEngine.InputSystem;
 
 public class AbsorbState : IState
 {
+    private PlayerInputManager playerInputManager;
     private ColorSelector colorSelector;
     private ColorProperties playerColorProperties;
     private ColorInjector colorInjector;
     private Camera camera;
 
-    public AbsorbState(ColorSelector colorSelector, ColorProperties playerColorProperties, ColorInjector colorInjector, Camera camera)
+    public AbsorbState(PlayerInputManager playerInputManager, ColorSelector colorSelector, ColorProperties playerColorProperties, ColorInjector colorInjector, Camera camera)
     {
+        this.playerInputManager = playerInputManager;
         this.colorSelector = colorSelector;
         this.playerColorProperties = playerColorProperties;
         this.colorInjector = colorInjector;
@@ -23,6 +25,7 @@ public class AbsorbState : IState
     {
 
         Debug.Log("Enter Inject State");
+        playerInputManager.OnFire1Pressed += Fire1;
         colorSelector.OnColorSelected += ColorSelected;
 
 
@@ -40,6 +43,7 @@ public class AbsorbState : IState
 
     public void OnExit()
     {
+        playerInputManager.OnFire1Pressed -= Fire1;
         colorSelector.OnColorSelected -= ColorSelected;
     }
 
@@ -48,13 +52,21 @@ public class AbsorbState : IState
     }
 
 
-    private void ColorSelected(PrimaryColors color)
+    private void ColorSelected(Colors color)
     {
-        var addedColor = playerColorProperties.AddColor(color);
+        var canAdd = playerColorProperties.CheckIfColorCanBeAdded(color);
 
-        if (addedColor)
+        if (canAdd)
+        {
+            playerColorProperties.AddColor(color);
             colorInjector.AbsorbFromTarget(color);
+        }
         else
             colorInjector.AbsorbtionTarget = null;
+    }
+    private void Fire1()
+    {
+        colorInjector.AbsorbtionTarget = null;
+        colorSelector.CloseColorSelection();
     }
 }
