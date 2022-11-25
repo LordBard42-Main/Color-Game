@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,16 +9,44 @@ using UnityEngine.UI;
 /// </summary>
 public class LevelButton : MonoBehaviour
 {
-    
-    [SerializeField] private Scenes goTo;
+
+    [SerializeField]
+    private string levelName;
+    [SerializeField]
+    private bool unlocked;
+    [SerializeField]
+    private bool completionStatus;
+
+    private SceneController sceneController;
+    private int index;
 
     public Button Button { get; set; }
-    public Scenes GoTo { get => goTo; set => goTo = value; }
 
     // Start is called before the first frame update
     void Awake()
     {
-       Button = GetComponent<Button>();
+
     }
-    
+
+    public void Initialize(Level level, SceneController sceneController, int index)
+    {
+        levelName = level.levelName;
+        unlocked = level.unlocked;
+        completionStatus = level.completionStatus;
+
+        this.sceneController = sceneController;
+        this.index = index;
+
+        Button = GetComponent<Button>();
+        Button.GetComponentInChildren<TextMeshProUGUI>().text = index + "";
+        Button.onClick.AddListener(LoadLevel);
+        Button.interactable = unlocked;
+    }
+
+    public void LoadLevel()
+    {
+
+        SceneController.instance.LoadScene(levelName);
+    }
+
 }

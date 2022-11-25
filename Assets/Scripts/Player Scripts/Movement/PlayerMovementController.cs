@@ -4,9 +4,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// This class is a controller class for player movement.
+/// It controlls movement with Movement Rules
+/// </summary>
 public class PlayerMovementController : MonoBehaviour
 {
     private Vector2 direction;
+
+    //This is where my interface is implemented. The reason I am using an interface here is I decoupled the physical movement script from my Controller script. 
+    //This will give myself the flexibility to swap out or change movement scripts without having to worry about tampering the code in this class.
+    //Recently my goal is to get closer to single responsibility classes.
     private IMovement movement;
     private MovementRules movementRules = new MovementRules();
 

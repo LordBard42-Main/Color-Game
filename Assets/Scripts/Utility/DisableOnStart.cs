@@ -10,7 +10,12 @@ public class DisableOnStart : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gameObject.SetActive(false);
+        StartCoroutine(wait());
+        IEnumerator wait()
+        {
+            yield return new WaitForSeconds(.3f);
+            gameObject.SetActive(false);
+        }
     }
 
     // Update is called once per frame

@@ -13,6 +13,13 @@ public class ColorInjector : MonoBehaviour
     private ColorProperties injectionTarget;
     private ColorProperties absorbtionTarget;
 
+
+    public delegate void InjectTargetFound();
+    public event InjectTargetFound OnInjectTargetFound;
+
+    public delegate void SiphonTargetFound();
+    public event SiphonTargetFound OnSiphonTargetFound;
+
     [SerializeField]
     private ColorSelector colorSelector;
 
@@ -48,11 +55,11 @@ public class ColorInjector : MonoBehaviour
         injectionTarget = null;
     }
 
-    public void CheckForInjectionTarget()
+    public bool CheckForInjectionTarget()
     {
         if (colorProperties.CurrentColor == Colors.White)
         {
-            return;
+            return false;
         }
 
         var hit = Physics2D.Raycast((Vector2)spriteTransform.position + (direction * .5f), direction, 1 - .1f);
@@ -62,8 +69,11 @@ public class ColorInjector : MonoBehaviour
             if (hit.transform.TryGetComponent(out ColorProperties hitObject))
             {
                 injectionTarget = hitObject;
+                OnInjectTargetFound!?.Invoke();
+                return true;
             }
         }
+        return false;
     }
     public void CheckForAbsorbtionTarget()
     {
@@ -73,8 +83,6 @@ public class ColorInjector : MonoBehaviour
             return;
         }
 
-
-
         var hit = Physics2D.Raycast((Vector2)spriteTransform.position + (direction * .5f), direction, 1 - .1f);
 
         if (hit)
@@ -82,7 +90,11 @@ public class ColorInjector : MonoBehaviour
             if (hit.transform.TryGetComponent(out ColorProperties hitObject))
             {
                 if(hitObject.CurrentColor != Colors.White)
+                {
                     absorbtionTarget = hitObject;
+                    Debug.Log(OnSiphonTargetFound);
+                    OnSiphonTargetFound!?.Invoke();
+                }
             }
         }
     }

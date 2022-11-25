@@ -12,6 +12,9 @@ public class Exit : MonoBehaviour
         if(collision.tag == "Player")
         {
             SceneController.instance.LoadScene(levelToLoad);
+            var levels = SaveData.current.levelData.levels;
+            levels[(int)levelToLoad - 1].unlocked = true;
+            SaveManager.instance.Save();
         }
         else if(collision.tag == "Companion")
         {
